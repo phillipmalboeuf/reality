@@ -1,0 +1,15 @@
+@each $breakpoint in $breakpoints {
+  .#{nth($breakpoint, 1)}_only {
+    display: none;
+  }
+
+  @media #{nth($breakpoint, 2)} {
+    .#{nth($breakpoint, 1)}_only {
+      display: inline-block;
+    }
+
+    .hide_on_#{nth($breakpoint, 1)} {
+      display: none !important;
+    }
+  }
+}

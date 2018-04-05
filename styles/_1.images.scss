@@ -1,0 +1,11 @@
+// #IMAGES
+
+img {
+  display: block;
+  max-width: 100%;
+
+  .full_images &,
+  &.img--full {
+    width: 100%;
+  }
+}

@@ -1,0 +1,34 @@
+
+
+// #HEROES
+
+.hero {
+  @extend .grid;
+  @extend .grid--middle;
+  @extend .grid--center;
+
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+  .hero__content {
+    @extend .padded;
+    @extend .max_width;
+    @extend .max_width--center;
+
+    @media #{$tablet_portrait} {
+      padding-top: $vertical_rythm*3;
+    }
+  }
+
+  .hero__topright {
+    position: fixed;
+    top: $vertical_rythm;
+    right: $vertical_rythm;
+
+    @media #{$tablet_portrait} {
+      top: $vertical_rythm/4;
+      right: $vertical_rythm/4;
+    }
+  }
