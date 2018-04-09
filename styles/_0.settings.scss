@@ -15,7 +15,7 @@ $green: #14AF6E;
 
 // #FONTS
 
-$body_font: -apple-system,BlinkMacSystemFont,San Francisco,Helvetica Neue,Helvetica,Ubuntu,Roboto,Noto,Segoe UI,Arial,sans-serif;
+$body_font: 'HK Grotesk Pro', sans-serif;
 $headings_font: $body_font;
 $alternate_font: $body_font;
 
@@ -26,7 +26,7 @@ $bold_weight: 700;
 
 // #LAYOUT
 
-$base: 18;
+$base: 16;
 $base_size: ($base) * 1px;
 $massive_size: (88/$base) * 1rem;
 $big_size: (52/$base) * 1rem;
@@ -34,7 +34,7 @@ $medium_size: (24/$base) * 1rem;
 $slight_size: (20/$base) * 1rem;
 $small_size: (14/$base) * 1rem;
 
-$vertical_rythm: 1.666rem;
+$vertical_rythm: 1.25rem;
 $max_width: 1666px;
 $letter_spacing: 0.01em;
 $border_radius: 3px;
@@ -53,9 +53,9 @@ $very_slow: 0.999s;
 
 // #BREAKPOINTS
 
-$phone: "all and (max-device-width:600px), all and (max-width:600px)";
-$tablet_portrait: "all and (max-device-width:900px), all and (max-width:900px)";
-$tablet_landscape: "all and (max-device-width:1200px), all and (max-width:1200px)";
-$big_desktop: "all and (min-device-width:1800px), all and (min-width:1800px)";
-$breakpoints: "big_desktop" $big_desktop, "tablet_landscape" $tablet_landscape, "tablet_portrait" $tablet_portrait, "phone" $phone;
+$phone: 'all and (max-device-width:600px), all and (max-width:600px)';
+$tablet_portrait: 'all and (max-device-width:900px), all and (max-width:900px)';
+$tablet_landscape: 'all and (max-device-width:1200px), all and (max-width:1200px)';
+$big_desktop: 'all and (min-device-width:1800px), all and (min-width:1800px)';
+$breakpoints: 'big_desktop' $big_desktop, 'tablet_landscape' $tablet_landscape, 'tablet_portrait' $tablet_portrait, 'phone' $phone;
 

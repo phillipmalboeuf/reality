@@ -1,5 +1,5 @@
 
-import * as React from "react"
+import * as React from 'react'
 
 interface Props {
   name: string,
@@ -25,7 +25,7 @@ export class Table extends React.Component<Props, State> {
   public render() {
     let keys: any = {}
     this.props.items.forEach(item => Object.keys(item).forEach(key => keys[key] = typeof item[key]))
-    return <div className="relative">
+    return <div className='relative'>
       <h3>{this.props.name}</h3>
       <table>
         <tbody>

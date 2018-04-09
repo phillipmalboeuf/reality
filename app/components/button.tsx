@@ -1,6 +1,6 @@
 
-import * as React from "react"
-import { Link } from "react-router-dom"
+import * as React from 'react'
+import { Link } from 'react-router-dom'
 
 interface Props {
   label: string,
@@ -11,6 +11,6 @@ interface Props {
 
 export const Button: React.SFC<Props> = (props) => {
   return props.to
-    ? <Link className="button" to={props.to}>{props.label}</Link>
+    ? <Link className='button' to={props.to}>{props.label}</Link>
     : <button onClick={props.onClick}>{props.label}</button>
 }
