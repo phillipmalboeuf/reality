@@ -1,0 +1,32 @@
+// #TABLE
+
+table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  border-collapse: collapse;
+  vertical-align: top;
+
+  tr {
+    border-bottom: 1px solid $grey;
+
+    &:first-child {
+      font-weight: bold;
+      border-top: 2px solid $grey;
+    }
+
+    &:last-child {
+      border-width: 2px;
+    }
+  }
+
+  th {
+    text-align: left;
+  }
+
+  td {
+    min-width: 12em;
+    max-width: 12em;
+    overflow: hidden;
+  }
+}

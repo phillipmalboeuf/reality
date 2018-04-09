@@ -7,5 +7,6 @@ import { Database } from "./routes/database"
 
 export const Routes = ()=> <Switch>
   <Route exact path="/" component={Connect} />
-  <Route exact path="/db" component={Database} />
+  <Route exact path="/db/:index" component={Database} />
+  <Route exact path="/db/:index/:collection" component={Database} />
 </Switch>

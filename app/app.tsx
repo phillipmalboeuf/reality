@@ -19,3 +19,8 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   ReactDOM.render(app, element)
 }
+
+
+if (module.hot) {
+  module.hot.accept()
+}

@@ -196,42 +196,6 @@ blockquote {
 }
 
 
-// #TABLE
-
-table {
-  vertical-align: top;
-
-  &.table--lined {
-    width: 100%;
-    border-collapse: collapse;
-
-    font-family: $alternate_font;
-    font-size: $small_size;
-
-    td {
-      padding: $vertical_rythm/4 0;
-      
-      &.td--50 {
-        width: 50%;
-      }
-    }
-
-    tr {
-      border-bottom: 1px solid $white;
-
-      &:first-child {
-        font-weight: bold;
-        border-top: 2px solid $white;
-      }
-
-      &:last-child {
-        border-width: 2px;
-      }
-    }
-  }
-}
-
-
 // #PRE & #CODE
 
 code {
