@@ -8,40 +8,43 @@ import { MongoClient, Db, Collection } from "mongodb"
 import { Table } from "../components/table"
 import { Button } from "../components/button"
 
+import Database from '../models/database'
+
+
 interface Props extends RouteComponentProps<any> {}
 export interface State {
-  alias: string,
-  url: string,
-  db_name: string,
+  database: Database,
   collections?: Collection[],
   collection?: string,
   collection_items?: any[]
 }
 
-export class Database extends React.Component<Props, State> {
+export class DatabaseViews extends React.Component<Props, State> {
 
   private client : MongoClient
   private db : Db 
 
   constructor(props: Props) {
     super(props)
-    let database = JSON.parse(localStorage.getItem("databases"))[props.match.params.index]
     this.state = {
-      alias: database.alias,
-      url: database.url,
-      db_name: database.db_name,
+      database: null,
       collections: []
     }
   }
 
   componentDidMount() {
-    MongoClient.connect(this.state.url)
-      .then(client => {
-        this.client = client
-        this.db = this.client.db(this.state.db_name)
-        this.db.collections().then(collections => this.setState({collections}))
-        if (this.props.match.params.collection) { this.setCollection() }
-      })
+    (new Database({_id: this.props.match.params._id})).fetch().then(database => {
+      this.setState({ database })
+      
+      MongoClient.connect(database.attributes.url)
+        .then(client => {
+          this.client = client
+          this.db = this.client.db(database.attributes.db_name)
+          this.db.collections().then(collections => this.setState({ collections }))
+          if (this.props.match.params.collection) { this.setCollection() }
+        })
+    })
+    
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -64,7 +67,7 @@ export class Database extends React.Component<Props, State> {
       <div className="grid grid--guttered">
         <div className="col col--2of12">
           {this.state.collections.map(collection => (
-          <React.Fragment key={collection.collectionName}><Link className={this.state.collection && this.state.collection === collection.collectionName ? "strong" : ""} to={`/db/${this.props.match.params.index}/${collection.collectionName}`} key={collection.collectionName}>{collection.collectionName}</Link><br/></React.Fragment>
+          <React.Fragment key={collection.collectionName}><Link className={this.state.collection && this.state.collection === collection.collectionName ? "strong" : ""} to={`/db/${this.props.match.params._id}/${collection.collectionName}`} key={collection.collectionName}>{collection.collectionName}</Link><br/></React.Fragment>
           ))}
         </div>
         <div className="col col--10of12">

@@ -3,3 +3,4 @@
 /.cache
 /dist
 npm-debug.log
+secret.json
