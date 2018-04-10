@@ -1,12 +1,12 @@
 
-import * as React from "react"
-import { RouteComponentProps } from "react-router-dom"
-import { Link } from "react-router-dom"
+import * as React from 'react'
+import { RouteComponentProps } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import { MongoClient, Db, Collection } from "mongodb"
+import { MongoClient, Db, Collection } from 'mongodb'
 
-import { Table } from "../components/table"
-import { Button } from "../components/button"
+import { Table } from '../components/table'
+import { Button } from '../components/button'
 
 import Database from '../models/database'
 
@@ -35,7 +35,7 @@ export class DatabaseViews extends React.Component<Props, State> {
   componentDidMount() {
     (new Database({_id: this.props.match.params._id})).fetch().then(database => {
       this.setState({ database })
-      
+
       MongoClient.connect(database.attributes.url)
         .then(client => {
           this.client = client
@@ -62,16 +62,16 @@ export class DatabaseViews extends React.Component<Props, State> {
   }
   
   public render() {
-    return <div className="padded">
-      <Button to="/" label="Back" />
-      <div className="grid grid--guttered">
-        <div className="col col--2of12">
+    return <div className='padded'>
+      <Button to='/' label='Back' />
+      <div className='grid grid--guttered'>
+        <div className='col col--2of12'>
           {this.state.collections.map(collection => (
-          <React.Fragment key={collection.collectionName}><Link className={this.state.collection && this.state.collection === collection.collectionName ? "strong" : ""} to={`/db/${this.props.match.params._id}/${collection.collectionName}`} key={collection.collectionName}>{collection.collectionName}</Link><br/></React.Fragment>
+          <React.Fragment key={collection.collectionName}><Link className={this.state.collection && this.state.collection === collection.collectionName ? 'strong' : ''} to={`/db/${this.props.match.params._id}/${collection.collectionName}`} key={collection.collectionName}>{collection.collectionName}</Link><br/></React.Fragment>
           ))}
         </div>
-        <div className="col col--10of12">
-          {this.state.collection && <Table name={this.state.collection} items={this.state.collection_items} />}
+        <div className='col col--10of12'>
+          {this.state.collection && <Table name={this.state.collection} items={this.state.collection_items} collection={this.db.collection(this.props.match.params.collection)} />}
         </div>
       </div>
     </div>

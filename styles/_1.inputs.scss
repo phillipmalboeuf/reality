@@ -56,14 +56,14 @@ textarea,
   line-height: 1;
 
   color: $black;
-  background: $white;
+  background: transparent;
   padding: $vertical_rythm/2;
-  margin-bottom: $vertical_rythm/2;
+  // margin-bottom: $vertical_rythm/2;
   border: 1px solid $grey;
   border-radius: $border_radius;
 
   &:active {
-    // top: 1px
+    top: 1px;
   }
 
   &:disabled,
