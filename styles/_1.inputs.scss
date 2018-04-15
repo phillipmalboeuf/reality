@@ -141,7 +141,7 @@ input[type="radio"] {
 
     position: relative;
     font-size: inherit;
-    color: $grey;
+    color: $grey--dark;
 
     &:hover,
     input:focus + & {
