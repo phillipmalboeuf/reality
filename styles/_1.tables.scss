@@ -1,6 +1,7 @@
 // #TABLE
 
 table {
+  position: relative;
   display: block;
   width: 100%;
   overflow: auto;
@@ -37,4 +38,9 @@ table {
       background-color: fade-out($blue, 0.8);
     }
   }
+
+    .th--pinned,
+    .td--pinned {
+
+    }
 }

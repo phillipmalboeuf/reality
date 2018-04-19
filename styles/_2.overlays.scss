@@ -1,0 +1,53 @@
+
+// #OVERLAYS
+
+.overlay {
+  @extend .grid;
+  @extend .grid--middle;
+  @extend .grid--center;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 20;
+}
+
+  .overlay__back {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+
+    background: fade-out($white, 0.1);
+  }
+
+  .overlay__close {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: $vertical_rythm/2 $vertical_rythm;
+  }
+
+  .overlay__container {
+    @extend .padded;
+    position: relative;
+
+    width: 100%;
+    max-width: $max_width/3;
+    max-height: 90vh;
+    overflow-y: auto;
+
+    border: 1px solid $grey;
+    border-radius: $border_radius;
+    background-color: $white;
+  }
+
+
+

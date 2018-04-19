@@ -7,6 +7,7 @@ import { DatabaseViews } from './routes/database_views'
 
 export const Routes = ()=> <Switch>
   <Route exact path='/' component={Connect} />
+  <Route exact path='/db/new' component={Connect} />
   <Route exact path='/db/:_id' component={DatabaseViews} />
   <Route exact path='/db/:_id/:collection' component={DatabaseViews} />
 </Switch>

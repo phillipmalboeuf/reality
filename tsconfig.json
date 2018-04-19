@@ -2,6 +2,10 @@
   "compilerOptions": {
     "jsx": "react",
     "noImplicitAny": true,
-    "removeComments": true
+    "removeComments": true,
+    "lib": [
+      "es2017",
+      "dom"
+    ]
   }
 }

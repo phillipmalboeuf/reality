@@ -22,7 +22,7 @@ export interface State {
 export class DatabaseViews extends React.Component<Props, State> {
 
   private client : MongoClient
-  private db : Db 
+  private db : Db
 
   constructor(props: Props) {
     super(props)
