@@ -6,6 +6,10 @@
   display: flex;
   flex-wrap: wrap;
 
+  &.grid--column {
+    flex-direction: column;
+  }
+
   &.grid--center {
     justify-content: center;
   }

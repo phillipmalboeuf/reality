@@ -19,12 +19,13 @@ export interface Column {
 
 interface Props {
   name: string,
-  items: any[],
+  items: object[],
   collection: Collection
 }
 interface State {
   updates: { [key:string]: any },
   columns: { [key:string]: Column }
+  peaking?: object
 }
 
 export class Table extends React.Component<Props, State> {
@@ -34,6 +35,7 @@ export class Table extends React.Component<Props, State> {
     this.state = {
       updates: {},
       columns: {}
+      peaking: null
     }
   }
 
@@ -97,6 +99,15 @@ export class Table extends React.Component<Props, State> {
     }))).then(result => this.setState({ updates: {} }))
   }
 
+  private peak(key: string, _id: string) {
+    if (!key) {
+      this.setState({ peaking: null });
+    }
+    if (key === '_id') {
+      return this.setState({ peaking: this.props.items.find((item) => item._id == _id) })
+    }
+  }
+
   public render() {
     let columns = Object.entries(this.state.columns).map(([key, column])=> ({
       ...column,
@@ -111,9 +122,9 @@ export class Table extends React.Component<Props, State> {
       }
     })
     columns.reverse()
+
     
     return <div className='relative'>
-      <h3>{this.props.name}</h3>
       <Button label='Save' onClick={(e)=> this.save()} disabled={Object.keys(this.state.updates).length === 0} />
       <table>
         <tbody>
@@ -121,11 +132,13 @@ export class Table extends React.Component<Props, State> {
             <Row headers
               columns={columns} />
           </tr>
-          
+    
           {this.props.items.map((item)=>
           <tr key={item._id} className={this.state.updates[item._id] ? 'tr--updated' : ''}>
             <Row item={item}
               columns={columns}
+              peaking={this.state.peaking}
+              peak={this.peak.bind(this)}
               updates={this.state.updates[item._id]}
               update={this.update.bind(this)}
               expandObject={this.expandObject.bind(this)}

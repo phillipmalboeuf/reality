@@ -1,12 +1,19 @@
 // #TABLE
 
+
+.scrolling-table {
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
 table {
   position: relative;
-  display: block;
+  display: inline-block;
   width: 100%;
-  overflow: auto;
+  overflow: visible;
   border-collapse: collapse;
-  vertical-align: top;
 
   tr {
     border-bottom: 1px solid $grey;
@@ -32,7 +39,8 @@ table {
   td {
     min-width: 12em;
     max-width: 12em;
-    overflow: hidden;
+    overflow: visible;
+    position: relative;
 
     &.td--updated {
       background-color: fade-out($blue, 0.8);
