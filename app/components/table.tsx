@@ -24,7 +24,7 @@ interface Props {
 }
 interface State {
   updates: { [key:string]: any },
-  columns: Column[]
+  columns: { [key:string]: Column }
 }
 
 export class Table extends React.Component<Props, State> {
@@ -33,59 +33,60 @@ export class Table extends React.Component<Props, State> {
     super(props)
     this.state = {
       updates: {},
-      columns: []
+      columns: {}
     }
   }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     return {
       updates: prevState.updates || {},
-      columns: Object.entries(nextProps.items.reduce((columns, item)=> {
+      columns: nextProps.items.reduce((columns, item)=> {
         Object.keys(item).forEach((key, index)=> columns[key] = {
           type: item[key].constructor.name,
           readonly: key === '_id',
           order: index
         })
         return columns
-      }, {})).map(([key, column])=> ({
-        ...column,
-        key: key
-      }))
+      }, {})
     }
   }
 
   private update(_id: string, key: string, value: any) {
-    // this.setState({ updates: { ...this.state.updates, [_id]: { ...(this.state.updates[_id] || {}), [key]: value } } })
+    this.setState({ updates: { ...this.state.updates, [_id]: { ...(this.state.updates[_id] || {}), [key]: value } } })
   }
 
-  private setColumns(columns: Column[]) {
+
+  private expandObject(key: string) {
     this.setState({
-      columns: columns
+      columns: {
+        ...this.state.columns,
+        [key]: { ...this.state.columns[key], expanded: true },
+        ...(this.props.items.reduce((columns, item)=> {
+          let value = this.value(key, item)
+          value && Object.keys(value).forEach((k, index)=> columns[`${key}.${k}`] = {
+            type: value[k].constructor.name,
+            order: index
+          })
+          return columns
+        }, {}))
+      }
     })
-    // this.setState({
-    //   columns: {
-    //     ...this.state.columns,
-    //     [key]: { ...this.state.columns[key], expanded: true },
-    //     ...(this.props.items.reduce((columns, item)=> {
-    //       let value = this.value(key, item)
-    //       value && Object.keys(value).forEach((k, index)=> columns[`${key}.${k}`] = {
-            // type: value[k].constructor.name,
-            // order: index
-    //       })
-    //       return columns
-    //     }, {}))
-    //   }
-    // })
   }
 
   private collapseObject(key: string) {
-    // Object.keys(this.state.columns).filter(k => k.indexOf(`${key}.`) === 0).forEach(k => delete this.state.columns[k])
-    // this.setState({
-    //   columns: {
-    //     ...this.state.columns,
-    //     [key]: { ...this.state.columns[key], expanded: false }
-    //   }
-    // })
+    Object.keys(this.state.columns).filter(k => k.indexOf(`${key}.`) === 0).forEach(k => delete this.state.columns[k])
+    this.setState({
+      columns: {
+        ...this.state.columns,
+        [key]: { ...this.state.columns[key], expanded: false }
+      }
+    })
+  }
+
+  public value(key: string, item: any) {
+    let value = item
+    key.split('.').forEach(k => value = value !== undefined ? value[k] : undefined)
+    return value
   }
 
   private save() {
@@ -96,15 +97,20 @@ export class Table extends React.Component<Props, State> {
     }))).then(result => this.setState({ updates: {} }))
   }
 
-  // private value(key: string, item: any): any {
-  //   let value = item
-  //   key.split('.').forEach(k => value = value !== undefined ? value[k] : undefined)
-  //   return value
-  // }
-
   public render() {
-    console.log(this.state.columns)
-    // let columns_list = Object.keys(this.state.columns)
+    let columns = Object.entries(this.state.columns).map(([key, column])=> ({
+      ...column,
+      key: key
+    }))
+    columns.reverse()
+    columns.forEach(column => {
+      if (column.expanded) {
+        column.columns = columns.filter(c => c.key.indexOf(`${column.key}.`) === 0)
+        column.columns.reverse()
+        columns = columns.filter(c => c.key.indexOf(`${column.key}.`) !== 0)
+      }
+    })
+    columns.reverse()
     
     return <div className='relative'>
       <h3>{this.props.name}</h3>
@@ -112,17 +118,18 @@ export class Table extends React.Component<Props, State> {
       <table>
         <tbody>
           <tr>
-            {this.state.columns.map(column => <th key={column.key} className={`${column.pinned ? 'th--pinned' : ''}`}>{column.key}</th>)}
+            <Row headers
+              columns={columns} />
           </tr>
           
           {this.props.items.map((item)=>
           <tr key={item._id} className={this.state.updates[item._id] ? 'tr--updated' : ''}>
             <Row item={item}
-              items={this.props.items}
-              columns={this.state.columns}
+              columns={columns}
               updates={this.state.updates[item._id]}
               update={this.update.bind(this)}
-              setColumns={this.setColumns.bind(this)} />
+              expandObject={this.expandObject.bind(this)}
+              collapseObject={this.collapseObject.bind(this)} />
           </tr>)}
         </tbody>
       </table>
