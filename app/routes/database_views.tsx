@@ -62,17 +62,17 @@ export class DatabaseViews extends React.Component<Props, State> {
   }
   
   public render() {
-    return <div className='padded'>
-      <Button to='/' label='Back' />
-      <div className='grid grid--guttered'>
-        <div className='col col--2of12'>
-          {this.state.collections.map(collection => (
-          <React.Fragment key={collection.collectionName}><Link className={this.state.collection && this.state.collection === collection.collectionName ? 'strong' : ''} to={`/db/${this.props.match.params._id}/${collection.collectionName}`} key={collection.collectionName}>{collection.collectionName}</Link><br/></React.Fragment>
-          ))}
-        </div>
-        <div className='col col--10of12'>
-          {this.state.collection && <Table name={this.state.collection} items={this.state.collection_items} collection={this.db.collection(this.props.match.params.collection)} />}
-        </div>
+    return <div className="grid grid--grow-last grid--column full-height">
+      <div className="tab-bar padded padded--flat_bottom">
+        <Button to='/' label='Back' />
+        {this.state.collections.map(collection => (
+          <React.Fragment key={collection.collectionName}>
+            <Link className={`tab ${this.state.collection && this.state.collection === collection.collectionName ? 'tab--active' : ''}`} to={`/db/${this.props.match.params._id}/${collection.collectionName}`} key={collection.collectionName}>{collection.collectionName}</Link>
+          </React.Fragment>
+        ))}
+      </div>
+      <div className="padded grow scroll">
+        {this.state.collection && <Table name={this.state.collection} items={this.state.collection_items} collection={this.db.collection(this.props.match.params.collection)} />}
       </div>
     </div>
   }

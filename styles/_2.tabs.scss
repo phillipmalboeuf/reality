@@ -1,0 +1,11 @@
+.tab-bar {
+  display: flex;
+  .tab {
+    padding: 0.5rem 1rem;
+    &.tab--active {
+      font-weight: bold;
+      border-radius: $border_radius;
+      background-color: $grey;
+    }
+  }
+}

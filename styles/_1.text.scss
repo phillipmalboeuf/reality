@@ -297,6 +297,10 @@ em,
 .underline { text-decoration: underline; }
 .strike { text-decoration: line-through; }
 
+.no-wrap {
+  white-space: nowrap;
+}
+
 .spaced {
   margin: 0 1em;
 }

@@ -12,6 +12,9 @@ interface Props {
   update?: Function,
   expandObject?: Function,
   collapseObject?: Function
+  setColumns?: Function,
+  peak: Function,
+  peaking?: object
 }
 interface State {}
 
@@ -32,7 +35,11 @@ export class Row extends React.Component<Props, State> {
     return this.props.columns.map((column, index)=> {
         return <React.Fragment key={column.key}>
           {!this.props.headers
-          ? <td key={column.key} className={`${column.pinned ? 'td--pinned' : ''}${this.props.updates && this.props.updates[column.key] !== undefined ? ' td--updated' : ''}`}>
+          ? <td
+            onMouseEnter={column.type === 'ObjectID' ? () => this.props.peak(column.key, this.props.item[column.key]) : null}
+            onMouseLeave={column.type === 'ObjectID' ? () => this.props.peak() : null}
+            key={column.key} 
+            className={`${column.pinned ? 'td--pinned' : ''}${this.props.updates && this.props.updates[column.key] !== undefined ? ' td--updated' : ''}`}>
             {!column.readonly
               ? ({
                 'String': <input type='text'
@@ -57,7 +64,23 @@ export class Row extends React.Component<Props, State> {
                   onClick={(e)=> console.log(column.key)}
                   label='[ Expand ]' />
               } as any)[column.type]
-              : <small>{column.value.toString()}</small>}
+              : ({
+                'ObjectID': this.props.peaking && this.props.peaking._id == column.value 
+                  ? <div
+                  className="absolute absolute--top-left"
+                  style={{ zIndex: 1000 }}>
+                      <div className="card">
+                        <div className="normal_bottom">
+                          <div className="pill">{column.value.toString()}</div>
+                        </div>
+                          {Object.keys(this.props.item).map(k => <p className="no-wrap" key={k}>{k}: {this.value(k, this.props.item).toString()}</p>)}
+                      </div>
+                    </div>
+                  : <div
+                    className="pill">
+                    {`${column.value.toString().substring(0, 5)}...`}
+                  </div>,
+              } as any)[column.type] || <small>{column.value.toString()}</small>}
           </td>
           : <th key={column.key} className={`${column.pinned ? 'th--pinned' : ''}`}>{column.key}</th>
           }
